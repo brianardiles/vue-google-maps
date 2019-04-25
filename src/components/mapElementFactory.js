@@ -132,18 +132,22 @@ function assert (v, message) {
  * @param {Object} props
  */
 export function mappedPropsToVueProps (mappedProps) {
-  return Object.entries(mappedProps)
-    .map(([key, prop]) => {
-      const value = {}
+  try {
+    return Object.entries(mappedProps)
+      .map(([key, prop]) => {
+        const value = {}
 
-      if ('type' in prop) value.type = prop.type
-      if ('default' in prop) value.default = prop.default
-      if ('required' in prop) value.required = prop.required
+        if ('type' in prop) value.type = prop.type
+        if ('default' in prop) value.default = prop.default
+        if ('required' in prop) value.required = prop.required
 
-      return [key, value]
-    })
-    .reduce((acc, [key, val]) => {
-      acc[key] = val
-      return acc
-    }, {})
+        return [key, value]
+      })
+      .reduce((acc, [key, val]) => {
+        acc[key] = val
+        return acc
+      }, {})
+  } catch (e) {
+    console.error(e)
+  }
 }
